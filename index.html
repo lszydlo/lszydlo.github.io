@@ -12,10 +12,48 @@
                         onClick: () => {
                             alert('Hi!')
                         }
+                    },
+                    getWidgetMenuItems: (widgets) => {
+
+                        const supportedWidgetsInSelection = widgets
+                            .filter((widget) => widget.type.toLowerCase() === 'card');
+
+                        // All selected widgets have to be supported in order to show the menu
+                        if (supportedWidgetsInSelection.length === widgets.length) {
+                            return Promise.resolve([{
+                                tooltip: 'Add properties',
+                                svgIcon: '<circle cx="12" cy="12" r="9" fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="2"/>',
+                                onClick: async (widgets) => {
+                                    await handleAuthAndOpenWindow(openEstimateModal, widgets);
+                                }
+                            }])
+                        }
+
+                        // Not all selected widgets are supported, we won't show the menu
+                        return Promise.resolve([{}]);
                     }
+
                 }
-            })
+            });
+
+            async function openEstimateModal(widget) {
+                return miro.board.ui.openModal('modal.html', {
+                    width: 300,
+                    height: 250
+                }).then(() => {
+                    console.log("modal opened")
+                });
+            }
+
+            async function handleAuthAndOpenWindow(opener, attribute) {
+                if (await miro.isAuthorized()) {
+                    await opener(attribute);
+                } else {
+                    console.log("not authorized")
+                }
+            }
         })
     </script>
+    <title>Miro ES extension</title>
 </head>
 </html>
