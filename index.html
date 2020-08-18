@@ -7,56 +7,15 @@
             miro.initialize({
                 extensionPoints: {
                     bottomBar: {
-                        title: 'Some title',
-                        svgIcon: '<circle cx="12" cy="12" r="9" fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="2"/>',
+                        title: 'Looking Glass',
+                        svgIcon: '<circle cx="12" cy="12" r="9" fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="2"></circle>',
+                        positionPriority: 1,
                         onClick: () => {
-                            alert('Hi!')
+                            miro.board.ui.openLeftSidebar('sidebar.html')
                         }
-                    },
-                    getWidgetMenuItems: (widgets) => {
-
-                        const supportedWidgetsInSelection = widgets
-                            .filter((widget) => widget.type.toLowerCase() == 'sticker');
-
-                        // All selected widgets have to be supported in order to show the menu
-                        if (supportedWidgetsInSelection.length == widgets.length) {
-                            return Promise.resolve([{
-                                tooltip: 'Add properties',
-                                svgIcon: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n' +
-                                    '\t viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">\n' +
-                                    '<path d="M70.2,337.4l104.4,104.4L441.5,175L337,70.5L70.2,337.4z M0.6,499.8c-2.3,9.3,2.3,13.9,11.6,11.6L151.4,465L47,360.6\n' +
-                                    '\tL0.6,499.8z M487.9,24.1c-46.3-46.4-92.8-11.6-92.8-11.6c-7.6,5.8-34.8,34.8-34.8,34.8l104.4,104.4c0,0,28.9-27.2,34.8-34.8\n' +
-                                    '\tC499.5,116.9,534.3,70.6,487.9,24.1z"/>\n' +
-                                    '</svg>',
-                                onClick: async (widgets) => {
-                                    await handleAuthAndOpenWindow(openEstimateModal, widgets);
-                                }
-                            }])
-                        }
-
-                        // Not all selected widgets are supported, we won't show the menu
-                        return Promise.resolve([{}]);
                     }
-
                 }
-            });
-
-            async function openEstimateModal(widget) {
-                return miro.board.ui.openModal('modal.html', {
-                    width: 300,
-                    height: 250
-                }).then(() => {
-                    console.log("modal opened")
-                });
-            }
-
-            async function handleAuthAndOpenWindow(opener, attribute) {
-                if (await miro.isAuthorized()) {
-                    await opener(attribute);
-                } else {
-                    console.log("not authorized")
-                }
-            }
+            })
         })
     </script>
     <title>Miro ES extension</title>
