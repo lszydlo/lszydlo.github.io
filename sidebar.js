@@ -13,18 +13,21 @@ async function getWidget() {
     let widgets = await miro.board.selection.get();
 
     // Get first widget from selected widgets
-    let text = widgets[0].text;
+    if (Array.isArray(widgets) && widgets.length > 0) {
 
-    // Check that widget has text field
-    if (typeof text === 'string') {
+        let text = widgets[0].text;
 
-        // hide tip and show text in sidebar
-        tipElement.style.opacity = '0';
-        widgetTextElement.value = text
-    } else {
+        // Check that widget has text field
+        if (typeof text === 'string') {
 
-        // show tip and clear text in sidebar
-        tipElement.style.opacity = '1';
-        widgetTextElement.value = ''
+            // hide tip and show text in sidebar
+            tipElement.style.opacity = '0';
+            widgetTextElement.value = text
+        } else {
+
+            // show tip and clear text in sidebar
+            tipElement.style.opacity = '1';
+            widgetTextElement.value = ''
+        }
     }
 }
