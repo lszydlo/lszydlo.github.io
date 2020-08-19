@@ -29,5 +29,8 @@ async function getWidget() {
             tipElement.style.opacity = '1';
             widgetTextElement.value = ''
         }
+    } else {
+        tipElement.style.opacity = '1';
+        widgetTextElement.value = ''
     }
 }
